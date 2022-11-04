@@ -2,6 +2,7 @@ package main
 
 import (
 	"GreenLight/internal/data"
+	"GreenLight/internal/validator"
 	"fmt"
 	"net/http"
 	"time"
@@ -20,6 +21,10 @@ func (app *application) createMovieHandler(w http.ResponseWriter, r *http.Reques
 		app.badRequestResponse(w, r, err)
 		return
 	}
+
+	v := validator.New()
+	v.Check(input.Title != "", "title", "must be provided")
+
 	fmt.Fprintf(w, "%+v\n", input)
 }
 
